@@ -1,5 +1,5 @@
 ## Version: v4.0.0
-## Date: 2022-08-31
+## Date: 2023-10-15
 ## Mod: Build20220831-002 Faker Repository config
 ## Update Content: 可持续发展纲要\n1. session管理破坏性修改\n2. 配置管理可编辑config下文件\n3. 自定义脚本改为查看脚本\n4. 移除互助相关
 
@@ -329,80 +329,6 @@ export JD_TRY_GOOD_FILTERS=""
 export JD_TRY_MIN_PRICE=""
 ### 试用商品最多提供数量（过滤垃圾商品）
 export JD_TRY_MAX_SUPPLY_COUNT=""
-
-# 龙猪猪环境变量
-## 京豆雨通知，填写true为不关闭推送，false为关闭推送
-export RAIN_NOTIFY_CONTROL="false"
-## 整点京豆雨RRA
-export SUPER_RAIN_RRA=""
-## 半点京豆雨RRA
-export HALF_RAIN_RRA=""
-
-# 柠檬（胖虎部分环境变量）
-## 1、京喜工厂抢茅台
-### 自定义商品变量
-export shopid="1598"   ##你要商品ID 冰箱
-export shopid1="1607"  ##你要商品ID 茅台
-## 2、推一推
-### 入口：极速版-赚金币 
-### 分享到QQ查看邀请码，packetId就是
-### 自定义变量
-export tytpacketId=""
-## 3、拆红包
-export chbpacketId=""
-## 4、是兄弟就砍我
-### 是兄弟就来砍我脚本要参加砍价的商品ID
-export actId=""
-export actId1=""
-export actId2=""
-export actId3=""
-export actId4=""
-### 是兄弟就来砍我脚本要要参加砍价的邀请码
-export packetId="" 
-## 5、是兄弟就砍我2
-### 惊喜欢乐砍 自定义变量 入口：京喜APP-我的-惊喜欢乐砍
-export launchid="" ##你的邀请码
-### 第一次参加变量设置为true查看商品ID，填写商品ID后自动获取邀请码邀请；如果只助力，变量设置为false
-export first="false"
-export active="" ##商品ID
-## 6、赚金币
-### 入口：极速版-百元生活费-赚金币-邀请好友
-### 第一次运行可不填写邀请码，运行一次查看自己的邀请码
-export InviterPin="" ##你的邀请码
-## 7、0元砍价，入口：京东-我的-0元砍价
-### 使用教程：
-### 第一步，运行脚本一次日志查看商品ID
-### 获取你要砍价的商品ID后变量填写
-export skuId="" ##这里填获取的商品ID
-### 第二步，再运行一次日志查看商品activityId变量填写
-export activity="" ##这里填获取的商品activityId
-## 8、邀请有礼  
-### 自定义邀请码环境变量
-export yqm="" ##你的邀请码
-## 9、全民挖现金
-### 入口：京东-我的-全民挖现金
-### 运行一次查看邀请码 变量你的邀请码 
-export shareCode=""
-## 10、省钱大赢家本期活动ID
-export redEnvelopeId="" 
-## 11、省钱大赢家邀请码
-export inviter=""
-## 12、签到领现金添加变量方式
-## 自行添加变量设置邀请码 格式如下 默认10个
-export cashinviteCode=""
-export cashinviteCode2=""
-export cashinviteCode3=""
-## 13、大老板农场 新增自定义变量通知开关。true通知打开，false为关闭
-export dlbtz="true"
-## 14、零食街自动兑换变量
-### 自行取消注释和注释
-##export lsjdh="jdAward1" ##兑换5豆
-##export lsjdh="jdAward2" ##兑换10豆
-export lsjdh="jdAward3" ##兑换100豆
-##export lsjdh="jdAward4" ##兑换牛奶
-
-
-
 
 # Ninja 环境变量
 ## 1、通知黑名单
