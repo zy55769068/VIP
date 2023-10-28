@@ -33,14 +33,12 @@ CONTAINER_NAME=""
 TAG="${ql}"
 NETWORK="bridge"
 JD_PORT=5700
-NINJA_PORT=5701
 
 HAS_IMAGE=false
 PULL_IMAGE=true
 HAS_CONTAINER=false
 DEL_CONTAINER=true
 INSTALL_WATCH=false
-INSTALL_NINJA=true
 ENABLE_HANGUP=true
 ENABLE_WEB_PANEL=true
 OLD_IMAGE_ID=""
@@ -107,8 +105,6 @@ else
 fi
 DATA_PATH=$JD_PATH/ql
 
-#ninja
-NINJA_PATH=$JD_PATH/ql/ninja
 
 # 检测镜像是否存在
 if [ ! -z "$(docker images -q $DOCKER_IMG_NAME:$TAG 2> /dev/null)" ]; then
@@ -164,7 +160,6 @@ read net
 if [ "$net" = "1" ]; then
     NETWORK="host"
     MAPPING_JD_PORT=""
-    MAPPING_NINJA_PORT=""
 fi
 
 inp "是否在启动容器时自动启动挂机程序：\n1) 开启[默认]\n2) 关闭"
@@ -181,13 +176,6 @@ if [ "$pannel" = "2" ]; then
     ENABLE_WEB_PANNEL_ENV=""
 fi
 
-inp "是否安装 Ninja：\n1) 安装[默认]\n2) 不安装"
-opt
-read Ninja
-if [ "$Ninja" = "2" ]; then
-    INSTALL_NINJA=false
-    MAPPING_NINJA_PORT=""
-fi
 
 # 端口问题
 modify_ql_port() {
@@ -199,34 +187,21 @@ modify_ql_port() {
         read JD_PORT
     fi
 }
-modify_Ninja_port() {
-    inp "是否修改 Ninja 端口[默认 5701]：\n1) 修改\n2) 不修改[默认]"
-    opt
-    read change_Ninja_port
-    if [ "$change_Ninja_port" = "1" ]; then
-        echo -n -e "\e[36m输入您想修改的端口->\e[0m"
-        read NINJA_PORT
-    fi
-}
 if [ "$NETWORK" = "bridge" ]; then
     inp "是否映射端口：\n1) 映射[默认]\n2) 不映射"
     opt
     read port
     if [ "$port" = "2" ]; then
         MAPPING_JD_PORT=""
-        MAPPING_NINJA_PORT=""
     else
         modify_ql_port
-        if [ "$INSTALL_NINJA" = true ]; then
-            modify_Ninja_port
-        fi
     fi
 fi
 
 
 # 配置已经创建完成，开始执行
 log "1.开始创建配置文件目录"
-PATH_LIST=($DATA_PATH  $NINJA_PATH)
+PATH_LIST=($DATA_PATH  )
 for i in ${PATH_LIST[@]}; do
     mkdir -p $i
 done
@@ -262,23 +237,13 @@ if [ "$port" != "2" ]; then
     echo -e "\e[34m恭喜，端口:$JD_PORT 可用\e[0m"
     MAPPING_JD_PORT="-p $JD_PORT:5600"
 fi
-if [ "$Ninja" != "2" ]; then
-    while check_port $NINJA_PORT; do    
-        echo -n -e "\e[31m端口:$NINJA_PORT 被占用，请重新输入 Ninja 面板端口：\e[0m"
-        read NINJA_PORT
-    done
-    echo -e "\e[34m恭喜，端口:$NINJA_PORT 可用\e[0m"
-    MAPPING_NINJA_PORT="-p $NINJA_PORT:5701"
-fi
 
 
 log "3.开始创建容器并执行"
 docker run -dit \
     -t \
     -v $DATA_PATH:/ql/data \
-    -v $NINJA_PATH:/ql/ninja \
     $MAPPING_JD_PORT \
-    $MAPPING_NINJA_PORT \
     --name $CONTAINER_NAME \
     --hostname qinglong \
     --restart always \
@@ -358,11 +323,6 @@ cat $DATA_PATH/config/auth.json
 echo -e "\n"
 if [ "$access" != "2" ]; then
     if [ "$(grep -c "token" $DATA_PATH/config/auth.json)" != 0 ]; then
-        log "7.开始安装或重装 Ninja"
-        if [ "$INSTALL_NINJA" = true ]; then
-            docker exec -it $CONTAINER_NAME bash -c "cd /ql;ps -ef|grep ninja|grep -v grep|awk '{print $1}'|xargs kill -9;rm -rf /ql/ninja;git clone https://yanyu.ltd/https://github.com/yanyuwangluo/Waikiki_ninja.git /ql/ninja;cd /ql/ninja/backend;pnpm install;cp .env.example .env;cp sendNotify.js /ql/data/scripts/sendNotify.js;sed -i \"s/ALLOW_NUM=40/ALLOW_NUM=100/\" /ql/ninja/backend/.env;pm2 start"
-            docker exec -it $CONTAINER_NAME bash -c "sed -i \"s/ALLOW_NUM=40/ALLOW_NUM=100/\" /ql/ninja/backend/.env && cd /ql/ninja/backend && pm2 start"
-        fi
         log "8.开始青龙内部配置"
         docker exec -it $CONTAINER_NAME bash -c "$(curl -fsSL https://yanyu.ltd/https://raw.githubusercontent.com/yanyuwangluo/VIP/main/Scripts/sh/1customCDNN.sh)"
     else
