@@ -1,61 +1,22 @@
 # 📌 [News](./Log/News.md#news)
 
 
-# Statement
-
-***This repository is for personal study and research purposes only.***    
-**Please DO NOT USE IT FOR COMMERCIAL PURPOSES.**  
-***Violators are responsible for their own.***  
-**☣REFUSE to SPREAD☣**   
-***Thank you for your cooperation.***
-
-## [★](./Dict) Dictionaries
-### Learning-Markdown
-> [README](https://github.com/Oreomeow/README#readme)  
-> [GFM](https://592592.xyz/2020/Github_Flavored_Markdown/#%E7%9B%AE%E5%BD%95)
-### Docker
-> [Docker Tutorials | Rookie Tutorials](https://www.runoob.com/docker/docker-tutorial.html)  
-
-
-## [★](./Conf) Configurations  
-- [Env](./Conf#readme)
-- [config.sample.sh](./Conf/Qinglong/config.sample.sh)
-
-
-## [★](./Tasks) Tasks
-### [<img src="/Icons/qinglong/QL.png" title="QL" width="30" height="30" />][QL] ← More
+# 由 烟雨阁 和 Faker 联合维护的 一键系列
+## 目前一键系列
+### 一键Dokcer
 ```
-ql repo https://github.com/shufflewzc/faker2.git "jd_|jx_|gua_|jddj_|getJDCookie" "activity|backUp|update" "^jd[^_]|USER|utils|^ZooFaker|^JDJRValidator|^sign"
+bash <(curl -sSL https://gitee.com/yanyuwangluo/onekey/raw/heihei/Docker.sh)
 ```
-- [extra.sh](./Tasks/qlrepo/extra.sh)
+### 一键青龙2.11.3版本青龙
+```
+wget -q http://git.yanyuwangluo.cn:1203/https://raw.githubusercontent.com/yanyuwangluo/VIP/main/Scripts/sh/ql.sh -O ql.sh && bash ql.sh
 
-
-## [★](./INS) Instructions
-### JD 
-- [qinglong](./INS/JD/qinglong#readme)   
-- [nevinee](./INS/JD/nevinee#readme)  
-
-
-## ☆ QuantumultX
-- **Lazy Configurations** *Created by sngxpro & Maintained by me*
-  ```  
-  https://raw.githubusercontent.com/Oreomeow/QuanX/master/sngx2021.conf
-  ```
- 
-- **Allinone TaskSub-Links** *Created by sngxpro & Maintained by me*
-  ```
-  https://git.metauniverse-cn.com/https://raw.githubusercontent.com/Oreomeow/QuanX/master/task/AllinOne.json
-  ```
-
-### Summary
-- [BoxJs: Sub-Links](./QX/BoxJs#readme)  
-
-
-## [★](./Scripts) Scripts 
-### Repositories [☛](./Scripts#repositories)
-- [whyour/qinglong](https://github.com/whyour/qinglong)
-> Scheduled task control panel for python and javaScript
-
-
-
-[QL]:./Tasks/qlrepo#readme
+```
+### 一键青龙2.12版本青龙
+```
+wget -q http://git.yanyuwangluo.cn:1203/https://raw.githubusercontent.com/yanyuwangluo/VIP/main/Scripts/sh/ql12.sh -O ql12.sh && bash ql12.sh
+```
+### 已安装青龙2.11+的用户，一键拉库 没反应就是网络问题
+```
+docker exec -it qinglong bash -c "$(curl -fsSL http://git.yanyuwangluo.cn:1203/https://github.com/yanyuwangluo/VIP/blob/main/Scripts/sh/1customCDN.sh)"
+```
