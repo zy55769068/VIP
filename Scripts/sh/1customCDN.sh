@@ -26,8 +26,9 @@ else
     code=${code:-'abcd'}
     read -p "task_before.sh 操作（替换或下载选项为 y，不替换为 n，回车为替换）请输入：" Rbefore
     Rbefore=${Rbefore:-'y'}
-    read -p "bot 操作（跳过为 0，添加 task:ql bot 选项为 1，添加后设置并运行为 2，回车等同 1）请输入:" bot
-    bot=${bot:-'1'}
+    read -p "已删除BOT设置"
+    #read -p "bot 操作（跳过为 0，添加 task:ql bot 选项为 1，添加后设置并运行为 2，回车等同 1）请输入:" bot
+    #bot=${bot:-'1'}
     read -p "config.sample.sh 操作（跳过为 0，添加 task:自动更新模板 选项为 1，添加后运行一次为 2，回车等同 2）请输入：" sample
     sample=${sample:-'2'}
 fi
