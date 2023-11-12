@@ -1,5 +1,5 @@
-## Version: v4.0.0
-## Date: 2023-10-15
+## Version: v4.2.0
+## Date: 2023-11-13
 ## Mod: Build20220831-002 Faker Repository config
 ## Update Content: 可持续发展纲要\n1. session管理破坏性修改\n2. 配置管理可编辑config下文件\n3. 自定义脚本改为查看脚本\n4. 移除互助相关
 
@@ -339,3 +339,21 @@ export NOTIFY_SKIP_LIST=""
 ## 1、清空购物车
 export JD_CART_REMOVE=""
 export JD_CART_REMOVESIZE=""
+## 2、新东东农场变量
+export jd_dongDongFarm_plantSkuId=""   
+## 需要种植的作物ID，详见脚本打印
+export jd_dongDongFarm_Notify=""   
+## 是否推送通知（true/false），默认不推送
+export JD_Farm_PROXY_OPEN=""
+## 代理启用变量，默认不开启（true/false）
+export JD_Farm_PROXY_TUNNRL=""      
+## 代理池代理地址变量，默认不开启，仅支持代理池模式(auto-proxy-pool)，格式为：http://ip:port
+export JD_Farm_PROXY_URL=""      
+## API代理地址变量，默认不开启，仅支持 数据格式:txt;提取数量:每次一个，格式为：http://api.xxx.xxx
+export JD_Farm_NO_PROXY=""     
+## 禁止走代理，默认 127.0.0.1,*.baidu.com 需要自行修改
+## 3、旧东东农场变量
+export jd_fruit_Water="" 
+## 不浇水设置变量true
+export DO_TEN_WATER_AGAIN=""
+## 默认在完成每日任务后再次浇水，若保留水滴请设置变量false
