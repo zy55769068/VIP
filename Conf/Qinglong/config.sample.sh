@@ -357,3 +357,5 @@ export jd_fruit_Water=""
 ## 不浇水设置变量true
 export DO_TEN_WATER_AGAIN=""
 ## 默认在完成每日任务后再次浇水，若保留水滴请设置变量false
+export FRUIT_NOTIFY_CONTROL=""
+## 控制是否发送通知 true/false
