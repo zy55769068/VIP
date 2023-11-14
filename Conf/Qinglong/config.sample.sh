@@ -1,6 +1,6 @@
-## Version: v4.2.0
-## Date: 2023-11-13
-## Mod: Build20220831-002 Faker Repository config
+## Version: v4.3.0
+## Date: 2023-11-14
+## Mod: Build20231114-001 Faker Repository config
 ## Update Content: 可持续发展纲要\n1. session管理破坏性修改\n2. 配置管理可编辑config下文件\n3. 自定义脚本改为查看脚本\n4. 移除互助相关
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
@@ -335,7 +335,7 @@ export JD_TRY_MAX_SUPPLY_COUNT=""
 ### 使用 & 分隔，例如 东东乐园&东东萌宠
 export NOTIFY_SKIP_LIST=""
 
-# Faker2库环境变量
+# Faker2，Faker3库通用环境变量
 ## 1、清空购物车
 export JD_CART_REMOVE=""
 export JD_CART_REMOVESIZE=""
@@ -359,3 +359,16 @@ export DO_TEN_WATER_AGAIN=""
 ## 默认在完成每日任务后再次浇水，若保留水滴请设置变量false
 export FRUIT_NOTIFY_CONTROL=""
 ## 控制是否发送通知 true/false
+export FRUIT_PLANT_LEVEL=""
+##自动种植的作物等级（正整数），默认为2
+## 4、转赚红包
+export JDZHBTOPPIN=''
+## 可指定PIN车头，不指定默认CK1
+export JDZHBNUM=''
+##多少助力换下一个车头,默认9999个,控制变量
+export JDZHBLTNUM=''
+##运行一次抽奖次数,默认抽完，控制变量 
+export JDZHBDELAY=''
+##每次抽奖间隔，默认1秒，控制变量 
+export JDZHBTORED='true'
+##开启提现到上限转红包 
