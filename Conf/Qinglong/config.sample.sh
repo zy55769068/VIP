@@ -372,3 +372,5 @@ export JDZHBDELAY=''
 ##每次抽奖间隔，默认1秒，控制变量 
 export JDZHBTORED='true'
 ##开启提现到上限转红包 
+## 5、自动评价变量（默认开启自动评价）
+export isCommentPic='true'
