@@ -373,4 +373,4 @@ export JDZHBDELAY=''
 export JDZHBTORED='true'
 ##开启提现到上限转红包 
 ## 5、自动评价变量（默认开启自动评价）
-export isCommentPic='true'
+export ONEVAL='true'
