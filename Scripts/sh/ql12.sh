@@ -179,7 +179,7 @@ fi
 
 # 端口问题
 modify_ql_port() {
-    inp "是否修改青龙端口[默认 5700]：\n1) 修改\n2) 不修改[默认]"
+    inp "是否修改青龙端口[默认 5700]：\n1) 推荐！避免CK被偷请修改\n2) 不修改[不建议，强烈建议修改！]"
     opt
     read change_ql_port
     if [ "$change_ql_port" = "1" ]; then
