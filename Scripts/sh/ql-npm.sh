@@ -40,4 +40,7 @@ selected_address=$(echo "${options[$choice-1]}" | awk -F'-' '{print $2}')
 echo "registry=$selected_address" >> .npmrc  
   
 echo "已将地址写入到.npmrc文件中。"
-echo "当前npm源地址：" cat .npmrc
+
+# 查询并显示当前的npm源地址  
+echo "已选择的npm源地址是: $(npm config get registry)"
+
