@@ -5,7 +5,6 @@
  # @LastEditors: yanyuwangluo 1915241107@qq.com
  # @LastEditTime: 2024-03-03 09:29:20
  # @FilePath: \青龙shell\ql-npm.sh
- # @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 ### 
 #修复青龙npm源失效
 echo "修复青龙Npm源失效"
@@ -38,6 +37,7 @@ fi
 selected_address=$(echo "${options[$choice-1]}" | awk -F'-' '{print $2}')  
   
 # 写入到.npmrc文件中  
-echo "registry=$selected_address" >> ~/.npmrc  
+echo "registry=$selected_address" >> .npmrc  
   
-echo "已将地址写入到~/.npmrc文件中。"
+echo "已将地址写入到.npmrc文件中。"
+echo "当前npm源地址：" cat .npmrc
