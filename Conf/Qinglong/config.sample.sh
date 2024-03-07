@@ -1,6 +1,6 @@
-## Version: v4.3.0
-## Date: 2023-11-14
-## Mod: Build20231114-001 Faker Repository config
+## Version: v4.4
+## Date: 2024-03-07
+## Mod: Build20240307-001 Faker Repository config
 ## Update Content: 可持续发展纲要\n1. session管理破坏性修改\n2. 配置管理可编辑config下文件\n3. 自定义脚本改为查看脚本\n4. 移除互助相关
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
@@ -372,5 +372,11 @@ export JDZHBDELAY=''
 ##每次抽奖间隔，默认1秒，控制变量 
 export JDZHBTORED='true'
 ##开启提现到上限转红包 
+export ZZHB_DRAW_RETRY=''
+#抽奖 提示未中奖等最大重试次数 默认 20 次
+export ZZHB_DRAW_TX_RETRY=''
+#提现接口重试 默认为0  不重试
+export JDZHBAUTOTX=''
+#是否拉取提现，默认提现抽到奖品
 ## 5、自动评价变量（默认开启自动评价）
 export ONEVAL='true'
