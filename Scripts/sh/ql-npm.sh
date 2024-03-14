@@ -37,7 +37,7 @@ fi
 selected_address=$(echo "${options[$choice-1]}" | awk -F'-' '{print $2}')  
   
 # 写入到.npmrc文件中  
-echo "registry=$selected_address" >> .npmrc  
+echo "registry=$selected_address" > .npmrc  
   
 echo "已将地址写入到.npmrc文件中。"
 
