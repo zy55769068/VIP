@@ -83,10 +83,20 @@ docker_install() {
             exit 1
         else
             echo "安装 docker 环境..."
-            curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+            bash <(curl -sSL https://git.metauniverse-cn.com/https://raw.githubusercontent.com/yanyuwangluo/VIP/main/Scripts/sh/docker.sh)  --install-latested true --source https://download.docker.com --source-registry https://docker.m.daocloud.io --close-firewall 
             echo "安装 docker 环境...安装完成!"
             systemctl enable docker
             systemctl start docker
+            echo "正在设置 Docker 镜像加速..."
+            mkdir -p /etc/docker
+            {"registry-mirrors": [
+            "https://yanyu.icu",
+            "https://yanyuge.free.hr"
+            ]
+            } > /etc/docker/daemon.jsom
+            systemctl daemon-reload
+            systemctl restart docker
+            echo "设置 Docker 镜像加速...设置完成!"
         fi
     fi
 }
