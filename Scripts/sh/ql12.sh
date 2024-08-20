@@ -281,12 +281,17 @@ if [ $INSTALL_WATCH = true ]; then
 fi
 
 # 检查 config 文件是否存在
-if [ ! -f "$DATA_PATH/config.sh" ]; then
-    docker cp $CONTAINER_NAME:/ql/sample/config.sample.sh $DATA_PATH/config/config.sh
-    if [ $? -ne 0 ] ; then
-        cancelrun "** 错误：找不到配置文件！"
+# 检查是否为 2.17.9 版本，如果不是，则执行配置文件复制操作
+if [ "$ql" != "2.17.9" ]; then
+    if [ ! -f "$DATA_PATH/config.sh" ]; then
+        docker cp $CONTAINER_NAME:/ql/sample/config.sample.sh $DATA_PATH/config/config.sh
+        if [ $? -ne 0 ] ; then
+            cancelrun "** 错误：找不到配置文件！"
+        fi
     fi
- fi
+else
+    echo "当前版本为 2.17.9，不需要复制配置文件"
+fi
 
 log "4.下面列出所有容器"
 docker ps
