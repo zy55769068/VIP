@@ -26,7 +26,7 @@ package_name="canvas png-js date-fns axios crypto-js ts-md5 tslib @types/node do
 3-Faker3
 4-Faker4
 
-
+EOF
 
 #------ 代码区 ------#
 # 🌱拉取仓库
@@ -72,47 +72,3 @@ install_dependencies_normal(){
         esac
     done
 }
-
-install_dependencies_force(){
-    for i in $@; do
-        case $i in
-            canvas)
-                cd /ql/scripts
-                if [[ "$(npm ls $i)" =~ $i && "$(echo $(npm ls $i) | grep ERR)" != "" ]]; then
-                    npm uninstall $i
-                    rm -rf /ql/scripts/node_modules/$i
-                    rm -rf /usr/local/lib/node_modules/lodash/*
-                fi
-                if [[ "$(npm ls $i)" =~ (empty) ]]; then
-                    apk add --no-cache build-base g++ cairo-dev pango-dev giflib-dev && npm i $i --prefix /ql/scripts --build-from-source --force
-                fi
-                ;;
-            *)
-                cd /ql/scripts
-                if [[ "$(npm ls $i)" =~ $i ]]; then
-                    npm uninstall $i
-                    rm -rf /ql/scripts/node_modules/$i
-                    rm -rf /usr/local/lib/node_modules/lodash/*
-                elif [[ "$(npm ls $i -g)" =~ $i && "$(echo $(npm ls $i -g) | grep ERR)" != "" ]]; then
-                    npm uninstall $i -g
-                    rm -rf /ql/scripts/node_modules/$i
-                    rm -rf /usr/local/lib/node_modules/lodash/*
-                fi
-                if [[ "$(npm ls $i -g)" =~ (empty) ]]; then
-                    npm i $i -g --force
-                fi
-                ;;
-        esac
-    done
-}
-
-install_dependencies_all(){
-    install_dependencies_normal $package_name
-    for i in $package_name; do
-        install_dependencies_force $i
-    done
-}
-
-if [ "$dependencies" = "yes" ]; then
-    install_dependencies_all &
-fi
