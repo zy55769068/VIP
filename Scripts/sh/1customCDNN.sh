@@ -191,16 +191,6 @@ else
     echo "已为您跳过操作"
 fi
 
-add_task_git() {
-    if [ "$(grep -c "gitfix.sh" /ql/config/crontab.list)" != 0 ]; then
-        echo "您的任务列表中已存在 task:gitfix.sh"
-    else
-        echo "开始添加 task:gitfix.sh"
-        # 获取token
-        token=$(cat /ql/config/auth.json | jq --raw-output .token)
-        curl -s -H 'Accept: application/json' -H "Authorization: Bearer $token" -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept-Language: zh-CN,zh;q=0.9' --data-binary '{"name":"更新Git仓库","command":"bash /ql/config/gitfix.sh","schedule":"*/30 * * * *"}' --compressed 'http://127.0.0.1:5700/api/crons?t=1627380635389'
-    fi
-}
 
 
 # 获取有效 code.sh 链接
