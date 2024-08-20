@@ -17,7 +17,6 @@
 CollectedRepo=(2) ##示例：CollectedRepo=(2 4 6)
 ## 2. 是否安装依赖和安装依赖包的名称设置
 dependencies="no" ##yes为安装，no为不安装
-package_name="canvas png-js date-fns axios crypto-js ts-md5 tslib @types/node dotenv typescript fs require tslib"
 
 #------ 编号区 ------#
 :<<\EOF
@@ -44,31 +43,3 @@ for i in ${CollectedRepo[@]}; do
     CR$i
     sleep 10
 done
-
-
-# 📦依赖
-install_dependencies_normal(){
-    for i in $@; do
-        case $i in
-            canvas)
-                cd /ql/scripts
-                if [[ "$(echo $(npm ls $i) | grep ERR)" != "" ]]; then
-                    npm uninstall $i
-                fi
-                if [[ "$(npm ls $i)" =~ (empty) ]]; then
-                    apk add --no-cache build-base g++ cairo-dev pango-dev giflib-dev && npm i $i --prefix /ql/scripts --build-from-source
-                fi
-                ;;
-            *)
-                if [[ "$(npm ls $i)" =~ $i ]]; then
-                    npm uninstall $i
-                elif [[ "$(echo $(npm ls $i -g) | grep ERR)" != "" ]]; then
-                    npm uninstall $i -g
-                fi
-                if [[ "$(npm ls $i -g)" =~ (empty) ]]; then
-                    [[ $i = "typescript" ]] && npm i $i -g --force || npm i $i -g
-                fi
-                ;;
-        esac
-    done
-}

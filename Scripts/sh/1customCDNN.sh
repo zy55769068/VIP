@@ -108,12 +108,12 @@ dl_extra_shell() {
     chmod 755 $extra_shell_path
 }
 # extra.sh 设置区设置
-set_default_extra() {   
+set_default_extra() {
     echo -e "一、集成仓库 Shufflewzc-Faker2"
-    read -p "直接回车拉取Faker2助力池版仓库，输入3回车拉取Faker3纯净仓库,输入4回车拉取Faker4简洁仓库" CollectedRepo
-    CollectedRepo=${CollectedRepo:-"2"}
-    sed -i "s/CollectedRepo=(4)/CollectedRepo=(${CollectedRepo})/g" $extra_shell_path
+    read -p "直接回车拉取Faker2助力池版仓库，输入3回车拉取Faker3纯净仓库,输入4回车拉取Faker4简洁仓库: " CollectedRepo
+    CollectedRepo=${CollectedRepo:-"2"}  # 如果用户直接回车，则默认为 2
 }
+
 # 将 ql extra 添加到定时任务
 add_ql_extra() {
     if [ "$(grep -c "ql\ extra" /ql/data/config/crontab.list)" != 0 ]; then
