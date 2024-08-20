@@ -14,7 +14,7 @@
 
 #------ 设置区 ------#
 ## 1. 拉取仓库编号设置，默认 Faker2 仓库
-CollectedRepo=(2) ##示例：CollectedRepo=(2 4 6)
+CollectedRepo=( ) ##示例：CollectedRepo=(2 4 6)
 ## 2. 是否安装依赖和安装依赖包的名称设置
 dependencies="no" ##yes为安装，no为不安装
 
