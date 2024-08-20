@@ -109,7 +109,7 @@ dl_extra_shell() {
 }
 # extra.sh 设置区设置
 set_default_extra() {
-    echo -e "一、集成仓库 Shufflewzc-Faker2"
+    echo -e "一、仓库选择"
     read -p "直接回车拉取Faker2助力池版仓库，输入3回车拉取Faker3纯净仓库,输入4回车拉取Faker4简洁仓库: " CollectedRepo
     CollectedRepo=${CollectedRepo:-"2"}  # 如果用户直接回车，则默认为 2
 }
