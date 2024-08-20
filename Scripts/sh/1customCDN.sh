@@ -14,6 +14,7 @@ git_shell_path=$dir_config/gitfix.sh
 
 
 
+
 # 控制是否执行变量
 read -p "是否执行全部操作，输入 1 即可执行全部，输入 0 则跳出，回车默认和其他可进行选择性操作，建议初次配置输入 1：" all
 if [ "${all}" = 1 ]; then
