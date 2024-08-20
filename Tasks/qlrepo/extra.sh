@@ -38,7 +38,7 @@ CR4(){
 }
 
 
-echo "CollectedRepo = $CollectedRepo"
+echo "您的选择是 = $CollectedRepo"
 
 for i in ${CollectedRepo[@]}; do
     CR$i
