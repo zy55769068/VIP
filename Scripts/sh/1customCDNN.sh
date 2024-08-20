@@ -1,17 +1,14 @@
 #!/usr/bin/env bash
 
 ## 本脚本搬运并模仿 liuqitoday
-dir_config=/ql/config
-dir_script=/ql/scripts
-dir_repo=/ql/repo
+dir_config=/ql/data/config
+dir_script=/ql/data/scripts
+dir_repo=/ql/data/repo
 config_shell_path=$dir_config/config.sh
 extra_shell_path=$dir_config/extra.sh
 code_shell_path=$dir_config/code.sh
 task_before_shell_path=$dir_config/task_before.sh
 bot_json=$dir_config/bot.json
-# 定义 gitfix.sh 路径
-git_shell_path=$dir_config/gitfix.sh
-
 
 
 # 控制是否执行变量
@@ -30,8 +27,8 @@ else
     read -p "task_before.sh 操作（替换或下载选项为 y，不替换为 n，回车为替换）请输入：" Rbefore
     Rbefore=${Rbefore:-'y'}
     read -p "已删除BOT设置"
-    #read -p "bot 操作（跳过为 0，添加 task:ql bot 选项为 1，添加后设置并运行为 2，回车等同 1）请输入:" bot
-    #bot=${bot:-'1'}
+    #read -p "bot 操作（跳过为 0，添加 task:ql bot 选项为 1，添加后设置并运行为 2，回车等同 0）请输入:" bot
+    #bot=${bot:-'0'}
     read -p "config.sample.sh 操作（跳过为 0，添加 task:自动更新模板 选项为 1，添加后运行一次为 2，回车等同 2）请输入：" sample
     sample=${sample:-'2'}
 fi
@@ -124,13 +121,13 @@ set_default_extra() {
 }
 # 将 ql extra 添加到定时任务
 add_ql_extra() {
-    if [ "$(grep -c "ql\ extra" /ql/config/crontab.list)" != 0 ]; then
+    if [ "$(grep -c "ql\ extra" /ql/data/config/crontab.list)" != 0 ]; then
         echo "您的任务列表中已存在 task:ql extra"
     else
         echo "开始添加 task:ql extra"
         # 获取token
-        token=$(cat /ql/config/auth.json | jq --raw-output .token)
-        curl -s -H 'Accept: application/json' -H "Authorization: Bearer $token" -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept-Language: zh-CN,zh;q=0.9' --data-binary '{"name":"初始化任务","command":"ql extra","schedule":"15 0-23/4 * * *"}' --compressed 'http://127.0.0.1:5700/api/crons?t=1624782068473'
+        token=$(cat /ql/data/config/auth.json | jq --raw-output .token)
+        curl -s -H 'Accept: application/json' -H "Authorization: Bearer $token" -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept-Language: zh-CN,zh;q=0.9' --data-binary '{"name":"初始化任务","command":"ql extra","schedule":"15 0-23/4 * * *"}' --compressed 'http://127.0.0.1:5600/api/crons?t=1697961933000'
     fi
 }
 # 运行一次 ql extra
@@ -157,59 +154,6 @@ else
     fi
 fi
 
-
-
-# 获取有效 gitfix.sh 链接
-get_valid_git() {
-    git_list=(https://git.metauniverse-cn.com/https://raw.githubusercontent.com/yanyuwangluo/VIP/main/Scripts/sh/gitfix.sh)
-    for url in ${git_list[@]}; do
-        check_url $url
-        if [ $? = 0 ]; then
-            valid_url=$url
-            echo "使用链接 $url"
-            break
-        fi
-    done
-}
-
-# 下载 gitfix.sh
-dl_git_shell() {
-    if [ ! -f "$git_shell_path" ]; then
-        touch $git_shell_path
-    fi
-    curl -sL --connect-timeout 3 $valid_url > $git_shell_path
-    cp $git_shell_path $dir_config/gitfix.sh
-    # 判断是否下载成功
-    git_size=$(ls -l $git_shell_path | awk '{print $5}')
-    if (( $(echo "${git_size} < 100" | bc -l) )); then
-        echo "gitfix.sh 下载失败"
-        exit 0
-    fi
-    # 授权
-    chmod 755 $git_shell_path
-}
-
-read -p "回车继续执行github拉库修复操作：" Rgit
-Rgit=${Rgit:-'y'}
-
-if [ "${Rgit}" = 'y' -o "${all}" = 1 ]; then
-    get_valid_git && dl_git_shell
-    echo "开始执行拉库修复"
-    bash $git_shell_path
-else
-    echo "已为您跳过操作"
-fi
-
-add_task_git() {
-    if [ "$(grep -c "gitfix.sh" /ql/config/crontab.list)" != 0 ]; then
-        echo "您的任务列表中已存在 task:gitfix.sh"
-    else
-        echo "开始添加 task:gitfix.sh"
-        # 获取token
-        token=$(cat /ql/config/auth.json | jq --raw-output .token)
-        curl -s -H 'Accept: application/json' -H "Authorization: Bearer $token" -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept-Language: zh-CN,zh;q=0.9' --data-binary '{"name":"更新Git仓库","command":"bash /ql/config/gitfix.sh","schedule":"*/30 * * * *"}' --compressed 'http://127.0.0.1:5700/api/crons?t=1627380635389'
-    fi
-}
 
 # 获取有效 code.sh 链接
 get_valid_code() {
@@ -257,7 +201,7 @@ add_task_code() {
         echo "开始添加 task:task code.sh"
         # 获取token
         token=$(cat /ql/config/auth.json | jq --raw-output .token)
-        curl -s -H 'Accept: application/json' -H "Authorization: Bearer $token" -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept-Language: zh-CN,zh;q=0.9' --data-binary '{"name":"格式化更新助力码","command":"task /ql/config/code.sh","schedule":"*/10 * * * *"}' --compressed 'http://127.0.0.1:5700/api/crons?t=1626247939659'
+        curl -s -H 'Accept: application/json' -H "Authorization: Bearer $token" -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept-Language: zh-CN,zh;q=0.9' --data-binary '{"name":"格式化更新助力码","command":"task /ql/config/code.sh","schedule":"*/10 * * * *"}' --compressed 'http://127.0.0.1:5600/api/crons?t=1697961933000'
     fi
 }
 if [ "${all}" = 1 ]; then
@@ -312,13 +256,13 @@ fi
 
 # 添加定时任务 ql bot
 add_ql_bot() {
-    if [ "$(grep -c "ql\ bot" /ql/config/crontab.list)" != 0 ]; then
+    if [ "$(grep -c "ql\ bot" /ql/data/config/crontab.list)" != 0 ]; then
         echo "您的任务列表中已存在 task:ql bot"
     else
         echo "开始添加 task:ql bot"
         # 获取token
-        token=$(cat /ql/config/auth.json | jq --raw-output .token)
-        curl -s -H 'Accept: application/json' -H "Authorization: Bearer $token" -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept-Language: zh-CN,zh;q=0.9' --data-binary '{"name":"拉取机器人","command":"ql bot","schedule":"13 14 * * *"}' --compressed 'http://127.0.0.1:5700/api/crons?t=1626247933219'
+        token=$(cat /ql/data/config/auth.json | jq --raw-output .token)
+        curl -s -H 'Accept: application/json' -H "Authorization: Bearer $token" -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept-Language: zh-CN,zh;q=0.9' --data-binary '{"name":"拉取机器人","command":"ql bot","schedule":"13 14 * * *"}' --compressed 'http://127.0.0.1:5600/api/crons?t=1697961933000'
     fi
 }
 # 运行一次并简单设置 bot.json
@@ -358,13 +302,13 @@ fi
 
 # 添加定时任务 自动更新模板
 add_curl_sample() {
-    if [ "$(grep -c "config.sample.sh" /ql/config/crontab.list)" != 0 ]; then
+    if [ "$(grep -c "config.sample.sh" /ql/data/config/crontab.list)" != 0 ]; then
         echo "您的任务列表中已存在 task:自动更新模板"
     else
         echo "开始添加 task:curl config.sample.sh"
         # 获取token
-        token=$(cat /ql/config/auth.json | jq --raw-output .token)
-        curl -s -H 'Accept: application/json' -H "Authorization: Bearer $token" -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept-Language: zh-CN,zh;q=0.9' --data-binary '{"name":"自动更新模板","command":"curl -L https://git.metauniverse-cn.com/https://raw.githubusercontent.com/yanyuwangluo/VIP/main/Conf/Qinglong/config.sample.sh -o /ql/sample/config.sample.sh && cp -rf /ql/sample/config.sample.sh /ql/config","schedule":"45 6,18 * * *"}' --compressed 'http://127.0.0.1:5700/api/crons?t=1627380635389'
+        token=$(cat /ql/data/config/auth.json | jq --raw-output .token)
+        curl -s -H 'Accept: application/json' -H "Authorization: Bearer $token" -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept-Language: zh-CN,zh;q=0.9' --data-binary '{"name":"自动更新模板","command":"curl -L https://git.metauniverse-cn.com/https://raw.githubusercontent.com/yanyuwangluo/VIP/main/Conf/Qinglong/config.sample.sh -o /ql/data/sample/config.sample.sh && cp -rf /ql/data/sample/config.sample.sh /ql/config","schedule":"45 6,18 * * *"}' --compressed 'http://127.0.0.1:5600/api/crons?t=1697961933000'
     fi
 }
 run_curl_sample() {
