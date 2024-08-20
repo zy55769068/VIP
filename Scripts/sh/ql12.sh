@@ -248,7 +248,7 @@ if [ "$port" != "2" ]; then
         read JD_PORT
     done
     echo -e "\e[34m恭喜，端口:$JD_PORT 可用\e[0m"
-    MAPPING_JD_PORT="-p $JD_PORT:5600"
+    MAPPING_JD_PORT="-p $JD_PORT:5700"
 fi
 
 
