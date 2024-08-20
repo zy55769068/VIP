@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-#依赖安装，运行一次就好
-#new Env('github拉库修复')
+#github拉库修复 运行一次就好
+#
 
 # 设置 http.postBuffer
 echo "设置 github缓存配置....."
