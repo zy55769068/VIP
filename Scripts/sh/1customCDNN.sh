@@ -28,7 +28,6 @@ else
     code=${code:-'abcd'}
     read -p "task_before.sh 操作（替换或下载选项为 y，不替换为 n，回车为替换）请输入：" Rbefore
     Rbefore=${Rbefore:-'y'}
-    read -p "已删除BOT设置"
     #read -p "bot 操作（跳过为 0，添加 task:ql bot 选项为 1，添加后设置并运行为 2，回车等同 0）请输入:" bot
     #bot=${bot:-'0'}
     read -p "config.sample.sh 操作（跳过为 0，添加 task:自动更新模板 选项为 1，添加后运行一次为 2，回车等同 2）请输入：" sample
@@ -111,12 +110,9 @@ dl_extra_shell() {
 # extra.sh 设置区设置
 set_default_extra() {   
     echo -e "一、集成仓库 Shufflewzc-Faker2"
-    read -p "直接回车拉取Faker2仓库，输入2回车拉取Faker3纯净仓库" CollectedRepo
-    echo -e "二、其他仓库（Other Repositories）\n1-passerby-b\n2-curtinlv\n3-smiek2221\n4-cdle\n5-ZCY01\n6-whyour/hundun\n7-moposmall\n8-Ariszy (Zhiyi-N)\n9-photonmang\n10-jiulan\n12-star261\n13-Wenmoux\n14-Tsukasa007"
-    read -p "输入您想拉取其他仓库编号(回车默认不拉取)，拉取多个请用空格隔开:" OtherRepo 
-    CollectedRepo=${CollectedRepo:-"4"}
+    read -p "直接回车拉取Faker2仓库，输入3回车拉取Faker3纯净仓库,输入4回车拉取Faker4简洁仓库" CollectedRepo
+    CollectedRepo=${CollectedRepo:-"2"}
     sed -i "s/CollectedRepo=(4)/CollectedRepo=(${CollectedRepo})/g" $extra_shell_path
-    sed -i "s/OtherRepo=()/OtherRepo=(${OtherRepo})/g" $extra_shell_path
 }
 # 将 ql extra 添加到定时任务
 add_ql_extra() {
@@ -183,7 +179,7 @@ dl_git_shell() {
     chmod 755 $git_shell_path
 }
 
-read -p "回车继续执行github拉库修复操作：" Rgit
+read -p "回车继续执行github连接修复：" Rgit
 Rgit=${Rgit:-'y'}
 
 if [ "${Rgit}" = 'y' -o "${all}" = 1 ]; then
@@ -302,52 +298,6 @@ if [ "${Rbefore}" = 'y' -o "${all}" = 1 ]; then
     get_valid_task_before && dl_task_before_shell
 else
     echo "已为您跳过替换 task_before.sh"
-fi
-
-
-# 添加定时任务 ql bot
-add_ql_bot() {
-    if [ "$(grep -c "ql\ bot" /ql/data/config/crontab.list)" != 0 ]; then
-        echo "您的任务列表中已存在 task:ql bot"
-    else
-        echo "开始添加 task:ql bot"
-        # 获取token
-        token=$(cat /ql/data/config/auth.json | jq --raw-output .token)
-        curl -s -H 'Accept: application/json' -H "Authorization: Bearer $token" -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept-Language: zh-CN,zh;q=0.9' --data-binary '{"name":"拉取机器人","command":"ql bot","schedule":"13 14 * * *"}' --compressed 'http://127.0.0.1:5600/api/crons?t=1697961933000'
-    fi
-}
-# 运行一次并简单设置 bot.json
-set_bot_json() {
-    ql bot
-    echo -e "------ 机器累了，休息 10s ------"
-    sleep 10
-    echo -e "\"//user_id\": \"↓↓↓  你的USERID，去除双引号  ↓↓↓\",\n\"user_id\": 123456789,\n\"//bot_token\": \"↓↓↓  你的机器人TOKEN  ↓↓↓\",\n\"bot_token\": \"123456789:ABCDEFGSHSFDASDFAD\",\n\"//api_id\": \"↓↓↓  https://my.telegram.org 在该网站申请到的id  ↓↓↓\",\n\"api_id\": \"456423156\",\n\"//api_hash\": \"↓↓↓  https://my.telegram.org 在该网站申请到的hash  ↓↓↓\",\n\"api_hash\": \"ASDFAWEFADSFAWEFDSFASFD\","
-    echo -e "----- 以上为示例，以下为你的配置(不要引号) -----"
-    read -p "\"user_id\": " user_id
-    read -p "\"bot_token\": " bot_token
-    read -p "\"api_id\": " api_id
-    read -p "\"api_hash\": " api_hash
-    sed -i "s/123456789,/${user_id},/" $bot_json
-    sed -ri "s/123456789\:ABCDEFGSHSFDASDFAD/${bot_token}/" $bot_json
-    sed -i "s/456423156/${api_id}/" $bot_json
-    sed -i "s/ASDFAWEFADSFAWEFDSFASFD/${api_hash}/" $bot_json
-}
-# 再运行一次 ql bot
-run_ql_bot() {
-    ql bot
-    echo -e "------ 机器累了，休息 10s ------"
-    sleep 10
-}
-if [ "${all}" = 1 ]; then
-    add_ql_bot && set_bot_json &&  run_ql_bot
-else
-    case ${bot} in
-        0)  echo "已为您跳过 bot 操作"
-        ;;
-        1)  add_ql_bot
-        ;;
-        2)  add_ql_bot && set_bot_json && run_ql_bot
-    esac    
 fi
 
 
