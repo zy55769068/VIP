@@ -313,7 +313,7 @@ if [ "$port" = "2" ]; then
 else
     log "6.安装已完成，请进入面板一次以便进行内部配置"
     log "6.1.用户名和密码已显示，请登录 ip:$JD_PORT"
-    cat $DATA_PATH/config/auth.json
+   # cat $DATA_PATH/config/auth.json
     echo -e "\n"
 fi
 
