@@ -79,6 +79,49 @@ else
 fi
 
 
+# 获取有效 gitfix.sh 链接
+get_valid_git() {
+    git_list=(https://git.metauniverse-cn.com/https://raw.githubusercontent.com/yanyuwangluo/VIP/main/Scripts/sh/gitfix.sh)
+    for url in ${git_list[@]}; do
+        check_url $url
+        if [ $? = 0 ]; then
+            valid_url=$url
+            echo "使用链接 $url"
+            break
+        fi
+    done
+}
+
+# 下载 gitfix.sh
+dl_git_shell() {
+    if [ ! -f "$git_shell_path" ]; then
+        touch $git_shell_path
+    fi
+    curl -sL --connect-timeout 3 $valid_url > $git_shell_path
+    cp $git_shell_path $dir_config/gitfix.sh
+    # 判断是否下载成功
+    git_size=$(ls -l $git_shell_path | awk '{print $5}')
+    if (( $(echo "${git_size} < 100" | bc -l) )); then
+        echo "gitfix.sh 下载失败"
+        exit 0
+    fi
+    # 授权
+    chmod 755 $git_shell_path
+}
+
+read -p "回车开始执行github连接修复：" Rgit
+Rgit=${Rgit:-'y'}
+
+if [ "${Rgit}" = 'y' -o "${all}" = 1 ]; then
+    get_valid_git && dl_git_shell
+    echo "开始执行拉库修复"
+    bash $git_shell_path
+else
+    echo "已为您跳过操作"
+fi
+
+
+
 # 获取有效 extra.sh 链接
 get_valid_extra() {
     extra_list=(https://git.metauniverse-cn.com/https://raw.githubusercontent.com/yanyuwangluo/VIP/main/Tasks/qlrepo/extra.sh)
@@ -109,8 +152,8 @@ dl_extra_shell() {
 }
 # extra.sh 设置区设置
 set_default_extra() {
-    echo -e "一、仓库选择"
-    read -p "直接回车拉取Faker2助力池版仓库，输入3回车拉取Faker3纯净仓库,输入4回车拉取Faker4简洁仓库: " CollectedRepo
+    echo -e "一、仓库选择\n直接回车拉取Faker2助力池版仓库\n输入3回车拉取Faker3内部互助版仓库\n输入4回车拉取Faker4纯净仓库"
+    read -p ": " CollectedRepo
     CollectedRepo=${CollectedRepo:-"2"}  # 如果用户直接回车，则默认为 2
     sed -i "s/CollectedRepo=(2)/CollectedRepo=(${CollectedRepo})/g" $extra_shell_path
 }
@@ -149,48 +192,6 @@ else
         run_ql_extra
     fi
 fi
-
-# 获取有效 gitfix.sh 链接
-get_valid_git() {
-    git_list=(https://git.metauniverse-cn.com/https://raw.githubusercontent.com/yanyuwangluo/VIP/main/Scripts/sh/gitfix.sh)
-    for url in ${git_list[@]}; do
-        check_url $url
-        if [ $? = 0 ]; then
-            valid_url=$url
-            echo "使用链接 $url"
-            break
-        fi
-    done
-}
-
-# 下载 gitfix.sh
-dl_git_shell() {
-    if [ ! -f "$git_shell_path" ]; then
-        touch $git_shell_path
-    fi
-    curl -sL --connect-timeout 3 $valid_url > $git_shell_path
-    cp $git_shell_path $dir_config/gitfix.sh
-    # 判断是否下载成功
-    git_size=$(ls -l $git_shell_path | awk '{print $5}')
-    if (( $(echo "${git_size} < 100" | bc -l) )); then
-        echo "gitfix.sh 下载失败"
-        exit 0
-    fi
-    # 授权
-    chmod 755 $git_shell_path
-}
-
-read -p "回车继续执行github连接修复：" Rgit
-Rgit=${Rgit:-'y'}
-
-if [ "${Rgit}" = 'y' -o "${all}" = 1 ]; then
-    get_valid_git && dl_git_shell
-    echo "开始执行拉库修复"
-    bash $git_shell_path
-else
-    echo "已为您跳过操作"
-fi
-
 
 
 # 获取有效 code.sh 链接
@@ -233,12 +234,12 @@ set_default_code() {
 }
 # 将 task code.sh 添加到定时任务
 add_task_code() {
-    if [ "$(grep -c "code.sh" /ql/config/crontab.list)" != 0 ]; then
+    if [ "$(grep -c "code.sh" /ql/data/config/crontab.list)" != 0 ]; then
         echo "您的任务列表中已存在 task:task code.sh"
     else
         echo "开始添加 task:task code.sh"
         # 获取token
-        token=$(cat /ql/config/auth.json | jq --raw-output .token)
+        token=$(cat /ql/data/config/auth.json | jq --raw-output .token)
         curl -s -H 'Accept: application/json' -H "Authorization: Bearer $token" -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept-Language: zh-CN,zh;q=0.9' --data-binary '{"name":"格式化更新助力码","command":"task /ql/config/code.sh","schedule":"*/10 * * * *"}' --compressed 'http://127.0.0.1:5600/api/crons?t=1697961933000'
     fi
 }

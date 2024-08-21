@@ -20,7 +20,6 @@ echo -------------------------------
 read -r -p "请输入要安装的青龙版本:" ql
 if  [ ! -n "$ql" ] ;then
  ql="2.17.9"
-# echo "本一键仅支持到2.11.3版本"
  echo "您设置的当前版本${ql}"
 else
   echo "您设置的当前版本${ql}"
@@ -344,10 +343,10 @@ if [ "$access" != "2" ]; then
         log "8.开始青龙内部配置"
         docker exec -it $CONTAINER_NAME bash -c "$(curl -fsSL https://git.metauniverse-cn.com/https://raw.githubusercontent.com/yanyuwangluo/VIP/main/Scripts/sh/1customCDNN.sh)"
     else
-        warn "8.未检测到 token，取消内部配置"
+        warn "8.未检测到 token，取消内部配置，后续配置去教程看即可"
     fi
 else
     exit 0
 fi
 
-log "/n部署完成了，另外Faker教程内有一键安装依赖脚本，按需使用"
+log "/n部署完成了，另外Faker教程内有一键安装依赖脚本，请继续安装使用"
