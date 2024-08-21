@@ -9,7 +9,6 @@ config_shell_path=$dir_config/config.sh
 extra_shell_path=$dir_config/extra.sh
 code_shell_path=$dir_config/code.sh
 task_before_shell_path=$dir_config/task_before.sh
-bot_json=$dir_config/bot.json
 # 定义 gitfix.sh 路径
 git_shell_path=$dir_config/gitfix.sh
 sendNotify_js_path=$dir_config/sendNotify.js
