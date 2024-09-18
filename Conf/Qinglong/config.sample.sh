@@ -1,7 +1,8 @@
-## Version: v5.0
-## Date: 2024-08-21
+## Version: v5.0.1
+## Date: 2024-09-18
 ## Mod: Build20240307-001 Faker Repository config
 ## Update Content: 新版青龙（2.17.9）及以上版本适用
+## 任何问题请在频道反馈 @Soucetalk
 
 ## 在运行 ql repo 命令时，是否自动删除失效的脚本与定时任务
 AutoDelCron="true"
@@ -44,6 +45,8 @@ AutoStartBot=""
 BotRepoUrl=""
 
 ## 通知环境变量
+
+
 ## 1. Server酱
 ## https://sct.ftqq.com/r/13363
 ## 下方填写 SCHKEY 值或 SendKey 值
